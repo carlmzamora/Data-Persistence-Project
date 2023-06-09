@@ -299,7 +299,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press Any Key To Continue
+  m_text: Press Spacebar To Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 648d6058becc7e3429e69dbd1895278c, type: 2}
   m_sharedMaterial: {fileID: 6360214270710282079, guid: 648d6058becc7e3429e69dbd1895278c, type: 2}
