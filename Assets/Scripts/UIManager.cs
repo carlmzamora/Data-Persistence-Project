@@ -23,11 +23,15 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == SceneManager.GetSceneByBuildIndex(0).name)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(SceneManager.GetActiveScene().name == SceneManager.GetSceneByBuildIndex(0).name)
             {
                 SceneManager.LoadScene(1);
+            }
+            if(SceneManager.GetActiveScene().name == SceneManager.GetSceneByBuildIndex(2).name)
+            {
+                SceneManager.LoadScene(0);
             }
         }
     }
