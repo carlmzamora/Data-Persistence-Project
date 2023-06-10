@@ -41,6 +41,9 @@ public class MainManager : MonoBehaviour
             }
         }
 
+        m_HighScore = GameManager.Instance.currentHighScore;
+        m_HighScorePlayer = GameManager.Instance.currentHighScorePlayer;
+        Debug.Log(m_HighScore + " " + m_HighScorePlayer);
         UpdateHighScore();
     }
 
@@ -73,6 +76,7 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        GameManager.Instance.currentPoints = m_Points;
 
         UpdateHighScore();
     }
@@ -82,7 +86,9 @@ public class MainManager : MonoBehaviour
         if(m_Points > m_HighScore)
         {
             m_HighScore = m_Points;
+            m_HighScorePlayer = "NEW!";
         }
+        GameManager.Instance.currentHighScore = m_HighScore;
 
         if (m_HighScore <= 0) //no high score yet
         {
@@ -91,7 +97,7 @@ public class MainManager : MonoBehaviour
         else
         {
             HighScoreText.gameObject.SetActive(true);
-            HighScoreText.text = $"Best Score: {m_HighScore} {m_HighScorePlayer}";
+            HighScoreText.text = $"High Score: {m_HighScore}  |  {m_HighScorePlayer}";
         }
     }
 
