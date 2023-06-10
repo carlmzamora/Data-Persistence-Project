@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     {
         if(SceneManager.GetActiveScene().name == SceneManager.GetSceneByBuildIndex(0).name)
         {
-            if(Input.anyKey)
+            if(Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(1);
             }
