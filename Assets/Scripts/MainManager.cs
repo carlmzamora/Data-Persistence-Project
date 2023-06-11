@@ -85,7 +85,7 @@ public class MainManager : MonoBehaviour
         if(m_Points > m_HighScore)
         {
             m_HighScore = m_Points;
-            m_HighScorePlayer = "NEW!";
+            m_HighScorePlayer = "NEW BEST!";
         }
         GameManager.Instance.highestHighScore = m_HighScore;
 

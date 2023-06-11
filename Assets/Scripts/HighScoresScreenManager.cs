@@ -25,6 +25,7 @@ public class HighScoresScreenManager : MonoBehaviour
         points = GameManager.Instance.currentPoints;
         highestHighScore = GameManager.Instance.highestHighScore;
         lowestHighScore = GameManager.Instance.lowestHighScore;
+        highScorePlayerInput.ActivateInputField();
 
         if(points >= lowestHighScore) //eligible, show highscore dialog
         {
@@ -62,6 +63,8 @@ public class HighScoresScreenManager : MonoBehaviour
             validationText.SetActive(false);
             GameManager.Instance.inputDisabled = false;
             highScorePlayerInput.interactable = false;
+
+            RepopulateTable();
         }
     }
 
@@ -70,6 +73,15 @@ public class HighScoresScreenManager : MonoBehaviour
         for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
         {
             EntryRow row = Instantiate(entryRowPrefab, table).GetComponent<EntryRow>();
+            row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
+        }
+    }
+
+    void RepopulateTable()
+    {
+        for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
+        {
+            EntryRow row = table.GetChild(i).GetComponent<EntryRow>();
             row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
         }
     }
