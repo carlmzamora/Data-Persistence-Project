@@ -43,7 +43,6 @@ public class MainManager : MonoBehaviour
 
         m_HighScore = GameManager.Instance.highestHighScore;
         m_HighScorePlayer = GameManager.Instance.currentHighScorePlayer;
-        Debug.Log(m_HighScore + " " + m_HighScorePlayer);
         UpdateHighScore();
     }
 

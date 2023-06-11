@@ -12,6 +12,8 @@ public class HighScoresScreenManager : MonoBehaviour
     [SerializeField] private TMP_InputField highScorePlayerInput;
     [SerializeField] private GameObject highScorePressAnyKeyText;
     [SerializeField] private GameObject validationText;
+    [SerializeField] private Transform table;
+    [SerializeField] private EntryRow entryRowPrefab;
 
     private int points;
     private int highestHighScore;
@@ -37,7 +39,9 @@ public class HighScoresScreenManager : MonoBehaviour
             highScoreDialog.SetActive(false);
             gameoverScoreText.text = points.ToString();
             GameManager.Instance.inputDisabled = false;
-        }        
+        }
+
+        PopulateTable();
     }
 
     public void OnNameConfirm() //only used in highscore dialog
@@ -61,9 +65,12 @@ public class HighScoresScreenManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
+    void PopulateTable()
     {
-        
+        for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
+        {
+            EntryRow row = Instantiate(entryRowPrefab, table).GetComponent<EntryRow>();
+            row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
+        }
     }
 }

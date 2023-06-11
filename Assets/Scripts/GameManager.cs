@@ -53,19 +53,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [System.Serializable]
-    class SaveData
-    {
-        public List<Entry> entries;
-    }
-
-    [System.Serializable]
-    public class Entry
-    {
-        public string playerName;
-        public int score;
-    }
-
     public void SaveHighScoreAndPlayer(string playerName, int score)
     {
         Entry entry = new Entry();
@@ -87,6 +74,9 @@ public class GameManager : MonoBehaviour
         if(highScorePlayerList.Count <= 1) return;
 
         highScorePlayerList.Sort((y,x) => x.score.CompareTo(y.score));
+
+        if(highScorePlayerList.Count > 10)
+        highScorePlayerList.RemoveAt(highScorePlayerList.Count-1);
     }
 
     public void LoadHighScoreAndPlayer()
@@ -102,9 +92,22 @@ public class GameManager : MonoBehaviour
         highestHighScore = highScorePlayerList[0].score;
         currentHighScorePlayer = highScorePlayerList[0].playerName;
 
-        if(highScorePlayerList.Count == 10)
-            lowestHighScore = highScorePlayerList[highScorePlayerList.Count].score;
+        if(highScorePlayerList.Count == 10) //limited to 10 entries anyway
+            lowestHighScore = highScorePlayerList[highScorePlayerList.Count-1].score;
         else if(highScorePlayerList.Count <= 9)
             lowestHighScore = 0;
     }
+}
+
+[System.Serializable]
+class SaveData
+{
+    public List<Entry> entries;
+}
+
+[System.Serializable]
+public class Entry
+{
+    public string playerName;
+    public int score;
 }
