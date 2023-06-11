@@ -45,6 +45,15 @@ public class HighScoresScreenManager : MonoBehaviour
         PopulateTable();
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space) && string.IsNullOrWhiteSpace(highScorePlayerInput.text))
+        {
+            highScorePressAnyKeyText.SetActive(false);
+            validationText.SetActive(true);
+        }
+    }
+
     public void OnNameConfirm() //only used in highscore dialog
     {
         string checkString = highScorePlayerInput.text;
