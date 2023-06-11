@@ -41,7 +41,7 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        m_HighScore = GameManager.Instance.currentHighScore;
+        m_HighScore = GameManager.Instance.highestHighScore;
         m_HighScorePlayer = GameManager.Instance.currentHighScorePlayer;
         Debug.Log(m_HighScore + " " + m_HighScorePlayer);
         UpdateHighScore();
@@ -88,7 +88,7 @@ public class MainManager : MonoBehaviour
             m_HighScore = m_Points;
             m_HighScorePlayer = "NEW!";
         }
-        GameManager.Instance.currentHighScore = m_HighScore;
+        GameManager.Instance.highestHighScore = m_HighScore;
 
         if (m_HighScore <= 0) //no high score yet
         {

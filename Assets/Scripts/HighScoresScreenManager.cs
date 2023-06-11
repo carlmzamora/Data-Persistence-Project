@@ -14,22 +14,24 @@ public class HighScoresScreenManager : MonoBehaviour
     [SerializeField] private GameObject validationText;
 
     private int points;
-    private int highScore;
+    private int highestHighScore;
+    private int lowestHighScore;
 
     // Start is called before the first frame update
     void Start()
     {
         points = GameManager.Instance.currentPoints;
-        highScore = GameManager.Instance.currentHighScore;
+        highestHighScore = GameManager.Instance.highestHighScore;
+        lowestHighScore = GameManager.Instance.lowestHighScore;
 
-        if(points >= highScore) //show highscore dialog
+        if(points >= lowestHighScore) //eligible, show highscore dialog
         {
             gameOverDialog.SetActive(false);
             highScoreDialog.SetActive(true);
             highScoreText.text = points.ToString();
             GameManager.Instance.inputDisabled = true;
         }
-        else //show gameover dialog
+        else if(points < lowestHighScore) //not eligible
         {
             gameOverDialog.SetActive(true);
             highScoreDialog.SetActive(false);
@@ -38,7 +40,7 @@ public class HighScoresScreenManager : MonoBehaviour
         }        
     }
 
-    public void OnNameConfirm()
+    public void OnNameConfirm() //only used in highscore dialog
     {
         string checkString = highScorePlayerInput.text;
 
@@ -50,10 +52,12 @@ public class HighScoresScreenManager : MonoBehaviour
         }
         else //name has been inputted
         {
-            GameManager.Instance.SaveHighScoreAndPlayer(points, highScorePlayerInput.text);
+            GameManager.Instance.SaveHighScoreAndPlayer(highScorePlayerInput.text, points);
+
             highScorePressAnyKeyText.SetActive(true);
             validationText.SetActive(false);
             GameManager.Instance.inputDisabled = false;
+            highScorePlayerInput.interactable = false;
         }
     }
 

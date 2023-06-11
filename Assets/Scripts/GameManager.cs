@@ -7,9 +7,12 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public int currentPoints;
-    public int currentHighScore;
+    public int highestHighScore;
     public string currentHighScorePlayer;
+    public int lowestHighScore;
     public bool inputDisabled = false;
+
+    public List<Entry> highScorePlayerList = new List<Entry>();
 
     public static GameManager Instance;
     
@@ -53,26 +56,55 @@ public class GameManager : MonoBehaviour
     [System.Serializable]
     class SaveData
     {
-        public int hscore;
-        public string player;
+        public List<Entry> entries;
     }
 
-    public void SaveHighScoreAndPlayer(int hscore, string player)
+    [System.Serializable]
+    public class Entry
     {
-        SaveData data = new SaveData();
-        data.hscore = hscore;
-        data.player = player;
+        public string playerName;
+        public int score;
+    }
 
-        string json = JsonUtility.ToJson(data);
+    public void SaveHighScoreAndPlayer(string playerName, int score)
+    {
+        Entry entry = new Entry();
+        entry.playerName = playerName;
+        entry.score = score;
+
+        highScorePlayerList.Add(entry);
+        SortHighScorePlayerList();
+
+        SaveData data = new SaveData();
+        data.entries = highScorePlayerList;
+
+        string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(Application.persistentDataPath + "/hscores.json", json);
+    }
+
+    void SortHighScorePlayerList()
+    {
+        if(highScorePlayerList.Count <= 1) return;
+
+        highScorePlayerList.Sort((y,x) => x.score.CompareTo(y.score));
     }
 
     public void LoadHighScoreAndPlayer()
     {
-        string json = File.ReadAllText(Application.persistentDataPath + "/hscores.json");
+        string filePath = Application.persistentDataPath + "/hscores.json";
+        if(!File.Exists(filePath)) return;
+
+        string json = File.ReadAllText(filePath);
 
         SaveData data = JsonUtility.FromJson<SaveData>(json);
-        currentHighScore = data.hscore;
-        currentHighScorePlayer = data.player;
+        highScorePlayerList = data.entries;
+
+        highestHighScore = highScorePlayerList[0].score;
+        currentHighScorePlayer = highScorePlayerList[0].playerName;
+
+        if(highScorePlayerList.Count == 10)
+            lowestHighScore = highScorePlayerList[highScorePlayerList.Count].score;
+        else if(highScorePlayerList.Count <= 9)
+            lowestHighScore = 0;
     }
 }
