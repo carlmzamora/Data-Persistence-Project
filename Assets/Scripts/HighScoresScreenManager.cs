@@ -88,10 +88,27 @@ public class HighScoresScreenManager : MonoBehaviour
 
     void RepopulateTable()
     {
-        for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
+        if(GameManager.Instance.highScorePlayerList.Count < 10)
         {
-            EntryRow row = table.GetChild(i).GetComponent<EntryRow>();
-            row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
+            for(int j = table.childCount; j > 0; j--)
+            {
+                GameObject row = table.GetChild(j-1).gameObject;
+                Destroy(row);
+            }
+
+            for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
+            {
+                EntryRow row = Instantiate(entryRowPrefab, table).GetComponent<EntryRow>();
+                row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
+            }
         }
+        else
+        {
+            for(int i = 0; i < GameManager.Instance.highScorePlayerList.Count; i++)
+            {
+                EntryRow row = table.GetChild(i).GetComponent<EntryRow>();
+                row.UpdateInfo(i+1, GameManager.Instance.highScorePlayerList[i].playerName, GameManager.Instance.highScorePlayerList[i].score);
+            }
+        }        
     }
 }
